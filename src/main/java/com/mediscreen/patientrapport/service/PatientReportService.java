@@ -20,7 +20,7 @@ public class PatientReportService {
         return this.calculPatientDiabetesReport(patient, patientNote);
     }
 
-    private PatientDiabetesReport calculPatientDiabetesReport(Patient patient, PatientNote patientNote){
+    public PatientDiabetesReport calculPatientDiabetesReport(Patient patient, PatientNote patientNote){
         int patientAge = calculPatientAgeFromDateOfBirth(patient.getDateOfBirth());
         int triggerWords = this.numberOfTriggerWord(patientNote);
         PatientDiabetesReport patientDiabetesReport;
@@ -32,7 +32,7 @@ public class PatientReportService {
         return patientDiabetesReport;
     }
 
-    private int calculPatientAgeFromDateOfBirth(String dateOfBirtth){
+    public int calculPatientAgeFromDateOfBirth(String dateOfBirtth){
         int patientAge;
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate dateNow = LocalDate.now();
@@ -41,7 +41,7 @@ public class PatientReportService {
         return patientAge;
     }
 
-    private int numberOfTriggerWord(PatientNote patientNote){
+    public int numberOfTriggerWord(PatientNote patientNote){
         List<String> triggerWords = Arrays.asList("Hémoglobine A1C", "Microalbumine", "Taille", "Poids", "Fumeur","Anormal", "Cholestérol", "Vertige", "Rechute", "Réaction", "Anticorps");
         int words= 0;
         String notes = patientNote.getNotes();
@@ -53,7 +53,7 @@ public class PatientReportService {
         return words;
     }
 
-    private PatientDiabetesReport manDiabetesReport(Patient patient, int patientAge, int triggerWords){
+    public PatientDiabetesReport manDiabetesReport(Patient patient, int patientAge, int triggerWords){
         if(triggerWords <= 1 || patientAge < 30 && triggerWords <=2){
             diabetesPatientRiskLevel = DiabetesPatientRiskLevel.NONE;
         } else if(patientAge >= 30 && triggerWords >= 2 && triggerWords <= 5) {
@@ -66,7 +66,7 @@ public class PatientReportService {
         return new PatientDiabetesReport(patient.getFirstName(), patient.getLastName(), patient.getGender(), patientAge, diabetesPatientRiskLevel);
     }
 
-    private PatientDiabetesReport womenDiabetesReport(Patient patient, int patientAge, int triggerWords){
+    public PatientDiabetesReport womenDiabetesReport(Patient patient, int patientAge, int triggerWords){
         if(triggerWords <= 1 || patientAge < 30 && triggerWords <=3){
             diabetesPatientRiskLevel = DiabetesPatientRiskLevel.NONE;
         } else if(patientAge >= 30 && triggerWords >= 2 && triggerWords <= 5) {
